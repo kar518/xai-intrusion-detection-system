@@ -4,6 +4,7 @@ import joblib
 import pandas as pd
 from flask import Flask, jsonify, request, render_template
 
+from xai.shap_explainer import SHAPExplainer
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -33,6 +34,20 @@ attack_artifact = joblib.load(ATTACK_MODEL_FILE)
 
 attack_model = attack_artifact["model"]
 attack_features = attack_artifact["features"]
+
+
+# ---------------------------------------------------------------------
+# LOAD SHAP
+# ---------------------------------------------------------------------
+
+print("Loading SHAP explainer...")
+
+binary_shap_explainer = SHAPExplainer(
+    BINARY_MODEL_FILE
+)
+
+print("SHAP explainer loaded.")
+
 
 print("Models loaded.")
 print(f"Binary features: {len(binary_features)}")
@@ -73,13 +88,22 @@ def prepare_features(flow, features):
 
 def predict_flow(flow):
 
+    # -------------------------------------------------------------
+    # STAGE 1: BENIGN / ATTACK
+    # -------------------------------------------------------------
+
     X_binary = prepare_features(
         flow,
         binary_features,
     )
 
-    binary_prediction = binary_model.predict(X_binary)[0]
-    binary_probabilities = binary_model.predict_proba(X_binary)[0]
+    binary_prediction = binary_model.predict(
+        X_binary
+    )[0]
+
+    binary_probabilities = (
+        binary_model.predict_proba(X_binary)[0]
+    )
 
     classes = list(binary_model.classes_)
 
@@ -101,16 +125,48 @@ def predict_flow(flow):
             if binary_prediction == 1
             else "BENIGN"
         ),
+
         "binary_confidence": float(
             max(binary_probabilities)
         ),
+
         "attack_probability": float(
             attack_probability
         ),
     }
 
     # -------------------------------------------------------------
-    # SECOND STAGE: ATTACK TYPE
+    # SHAP EXPLANATION
+    # -------------------------------------------------------------
+
+    if binary_prediction == 1:
+
+        shap_explanation = (
+            binary_shap_explainer.explain(
+                X_binary,
+                top_n=10,
+            )[0]
+        )
+
+        result["shap"] = [
+            {
+                "feature": item["feature"],
+                "shap_value": float(
+                    item["shap_value"]
+                ),
+                "feature_value": float(
+                    item["feature_value"]
+                ),
+            }
+            for item in shap_explanation["features"]
+        ]
+
+    else:
+
+        result["shap"] = []
+
+    # -------------------------------------------------------------
+    # STAGE 2: ATTACK TYPE
     # -------------------------------------------------------------
 
     if binary_prediction == 1:
@@ -125,7 +181,9 @@ def predict_flow(flow):
         )[0]
 
         attack_probabilities = (
-            attack_model.predict_proba(X_attack)[0]
+            attack_model.predict_proba(
+                X_attack
+            )[0]
         )
 
         attack_classes = list(
@@ -162,17 +220,26 @@ def predict_flow(flow):
 
 @app.get("/")
 def home():
-    return render_template("index.html")
+
+    return render_template(
+        "index.html"
+    )
 
 
 @app.get("/health")
 def health():
+
     return jsonify({
         "status": "ok",
         "binary_model": True,
         "attack_classifier": True,
-        "binary_features": len(binary_features),
-        "attack_features": len(attack_features),
+        "shap": True,
+        "binary_features": len(
+            binary_features
+        ),
+        "attack_features": len(
+            attack_features
+        ),
     })
 
 
@@ -182,8 +249,11 @@ def predict():
     data = request.get_json()
 
     if not data:
+
         return jsonify({
-            "error": "Request body must contain JSON."
+            "error": (
+                "Request body must contain JSON."
+            )
         }), 400
 
     try:
@@ -224,16 +294,21 @@ def demo():
     }
 
     if label not in valid_labels:
+
         return jsonify({
             "error": (
-                f"Invalid label. Choose from: "
+                "Invalid label. Choose from: "
                 f"{sorted(valid_labels)}"
             )
         }), 400
 
     if not TEST_FILE.exists():
+
         return jsonify({
-            "error": f"Test dataset not found: {TEST_FILE}"
+            "error": (
+                f"Test dataset not found: "
+                f"{TEST_FILE}"
+            )
         }), 500
 
     try:
@@ -282,7 +357,9 @@ def demo():
             })
 
         return jsonify({
-            "error": f"No {label} samples found."
+            "error": (
+                f"No {label} samples found."
+            )
         }), 404
 
     except Exception as error:
