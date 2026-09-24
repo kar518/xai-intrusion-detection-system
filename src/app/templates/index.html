@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>XAI IDS Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <div>
+            <h1>Explainable AI Intrusion Detection System</h1>
+            <p class="subtitle">
+                CICIDS2017 • Two-Stage Random Forest • SHAP Explainability
+            </p>
+        </div>
+
+        <div id="status" class="status">
+            ● SYSTEM READY
+        </div>
+    </header>
+
+
+    <!-- ========================================================= -->
+    <!-- DEMO CONTROLS -->
+    <!-- ========================================================= -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h2>Real CICIDS2017 Flow</h2>
+                <p>
+                    Load an actual attack flow from the test dataset.
+                </p>
+            </div>
+        </div>
+
+        <div class="controls">
+
+            <button
+                class="demo-btn"
+                onclick="loadDemo('DDoS')"
+            >
+                Load DDoS
+            </button>
+
+            <button
+                class="demo-btn"
+                onclick="loadDemo('PortScan')"
+            >
+                Load PortScan
+            </button>
+
+            <button
+                class="demo-btn"
+                onclick="loadDemo('Bot')"
+            >
+                Load Bot
+            </button>
+
+        </div>
+
+        <div id="actual-label" class="actual-label">
+            No flow loaded
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- FLOW DATA -->
+    <!-- ========================================================= -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h2>Network Flow Features</h2>
+                <p>
+                    65 numeric CICIDS2017 features used by the models.
+                </p>
+            </div>
+
+            <button
+                id="analyze-btn"
+                class="analyze-btn"
+                onclick="analyzeFlow()"
+                disabled
+            >
+                Analyze Flow
+            </button>
+        </div>
+
+        <div id="flow-container" class="flow-grid">
+            <div class="empty">
+                Load a real flow to view its features.
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- RESULT -->
+    <!-- ========================================================= -->
+
+    <section
+        id="result-panel"
+        class="panel result-panel hidden"
+    >
+
+        <div class="panel-header">
+            <div>
+                <h2>Detection Result</h2>
+                <p>
+                    Output from the two-stage IDS pipeline.
+                </p>
+            </div>
+        </div>
+
+
+        <div class="result-grid">
+
+            <div class="result-card">
+                <span class="label">Prediction</span>
+                <strong id="prediction">—</strong>
+            </div>
+
+            <div class="result-card">
+                <span class="label">Attack Probability</span>
+                <strong id="attack-probability">—</strong>
+            </div>
+
+            <div class="result-card">
+                <span class="label">Binary Confidence</span>
+                <strong id="binary-confidence">—</strong>
+            </div>
+
+            <div
+                id="attack-type-card"
+                class="result-card"
+            >
+                <span class="label">Attack Type</span>
+                <strong id="attack-type">—</strong>
+            </div>
+
+            <div
+                id="attack-confidence-card"
+                class="result-card"
+            >
+                <span class="label">Attack Confidence</span>
+                <strong id="attack-confidence">—</strong>
+            </div>
+
+        </div>
+
+
+        <div
+            id="probabilities-section"
+            class="probabilities-section"
+        >
+
+            <h3>Attack-Type Probabilities</h3>
+
+            <div id="probabilities"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- XAI -->
+    <!-- ========================================================= -->
+
+    <section
+        id="xai-panel"
+        class="panel hidden"
+    >
+
+        <div class="panel-header">
+
+            <div>
+                <h2>Explainable AI</h2>
+
+                <p>
+                    SHAP-based explanation of the model's decision.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="xai-placeholder">
+
+            <div class="xai-icon">
+                SHAP
+            </div>
+
+            <div>
+                <h3>Feature Contribution</h3>
+
+                <p>
+                    SHAP explanations will appear here after the
+                    prediction pipeline is connected to the XAI module.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
