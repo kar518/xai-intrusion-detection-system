@@ -1,0 +1,119 @@
+{
+  "n_files": 8,
+  "files": [
+    {
+      "filename": "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv",
+      "row_count": 225745,
+      "nan_values_by_column": {
+        "Flow Bytes/s": 4
+      },
+      "nan_values_total": 4,
+      "positive_infinity_by_column": {
+        "Flow Bytes/s": 30,
+        "Flow Packets/s": 34
+      },
+      "negative_infinity_by_column": {},
+      "infinity_values_total": 64
+    },
+    {
+      "filename": "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv",
+      "row_count": 286467,
+      "nan_values_by_column": {
+        "Flow Bytes/s": 15
+      },
+      "nan_values_total": 15,
+      "positive_infinity_by_column": {
+        "Flow Bytes/s": 356,
+        "Flow Packets/s": 371
+      },
+      "negative_infinity_by_column": {},
+      "infinity_values_total": 727
+    },
+    {
+      "filename": "Friday-WorkingHours-Morning.pcap_ISCX.csv",
+      "row_count": 191033,
+      "nan_values_by_column": {
+        "Flow Bytes/s": 28
+      },
+      "nan_values_total": 28,
+      "positive_infinity_by_column": {
+        "Flow Bytes/s": 94,
+        "Flow Packets/s": 122
+      },
+      "negative_infinity_by_column": {},
+      "infinity_values_total": 216
+    },
+    {
+      "filename": "Monday-WorkingHours.pcap_ISCX.csv",
+      "row_count": 529918,
+      "nan_values_by_column": {
+        "Flow Bytes/s": 64
+      },
+      "nan_values_total": 64,
+      "positive_infinity_by_column": {
+        "Flow Bytes/s": 373,
+        "Flow Packets/s": 437
+      },
+      "negative_infinity_by_column": {},
+      "infinity_values_total": 810
+    },
+    {
+      "filename": "Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv",
+      "row_count": 288602,
+      "nan_values_by_column": {
+        "Flow Bytes/s": 18
+      },
+      "nan_values_total": 18,
+      "positive_infinity_by_column": {
+        "Flow Bytes/s": 189,
+        "Flow Packets/s": 207
+      },
+      "negative_infinity_by_column": {},
+      "infinity_values_total": 396
+    },
+    {
+      "filename": "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv",
+      "row_count": 170366,
+      "nan_values_by_column": {
+        "Flow Bytes/s": 20
+      },
+      "nan_values_total": 20,
+      "positive_infinity_by_column": {
+        "Flow Bytes/s": 115,
+        "Flow Packets/s": 135
+      },
+      "negative_infinity_by_column": {},
+      "infinity_values_total": 250
+    },
+    {
+      "filename": "Tuesday-WorkingHours.pcap_ISCX.csv",
+      "row_count": 445909,
+      "nan_values_by_column": {
+        "Flow Bytes/s": 201
+      },
+      "nan_values_total": 201,
+      "positive_infinity_by_column": {
+        "Flow Bytes/s": 63,
+        "Flow Packets/s": 264
+      },
+      "negative_infinity_by_column": {},
+      "infinity_values_total": 327
+    },
+    {
+      "filename": "Wednesday-workingHours.pcap_ISCX.csv",
+      "row_count": 692703,
+      "nan_values_by_column": {
+        "Flow Bytes/s": 1008
+      },
+      "nan_values_total": 1008,
+      "positive_infinity_by_column": {
+        "Flow Bytes/s": 289,
+        "Flow Packets/s": 1297
+      },
+      "negative_infinity_by_column": {},
+      "infinity_values_total": 1586
+    }
+  ],
+  "total_nan_values": 1358,
+  "total_infinity_values": 4376
+}

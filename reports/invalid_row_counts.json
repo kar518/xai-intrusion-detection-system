@@ -1,0 +1,88 @@
+{
+  "n_files": 8,
+  "files": [
+    {
+      "filename": "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv",
+      "row_count": 225745,
+      "rows_with_nan": 4,
+      "rows_with_infinity": 34,
+      "rows_with_any_invalid_value": 34,
+      "duplicate_rows": 2633,
+      "rows_invalid_or_duplicate": 2663,
+      "pct_rows_affected": 1.18
+    },
+    {
+      "filename": "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv",
+      "row_count": 286467,
+      "rows_with_nan": 15,
+      "rows_with_infinity": 371,
+      "rows_with_any_invalid_value": 371,
+      "duplicate_rows": 72353,
+      "rows_invalid_or_duplicate": 72690,
+      "pct_rows_affected": 25.375
+    },
+    {
+      "filename": "Friday-WorkingHours-Morning.pcap_ISCX.csv",
+      "row_count": 191033,
+      "rows_with_nan": 28,
+      "rows_with_infinity": 122,
+      "rows_with_any_invalid_value": 122,
+      "duplicate_rows": 6888,
+      "rows_invalid_or_duplicate": 6989,
+      "pct_rows_affected": 3.659
+    },
+    {
+      "filename": "Monday-WorkingHours.pcap_ISCX.csv",
+      "row_count": 529918,
+      "rows_with_nan": 64,
+      "rows_with_infinity": 437,
+      "rows_with_any_invalid_value": 437,
+      "duplicate_rows": 26935,
+      "rows_invalid_or_duplicate": 27268,
+      "pct_rows_affected": 5.146
+    },
+    {
+      "filename": "Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv",
+      "row_count": 288602,
+      "rows_with_nan": 18,
+      "rows_with_infinity": 207,
+      "rows_with_any_invalid_value": 207,
+      "duplicate_rows": 35630,
+      "rows_invalid_or_duplicate": 35812,
+      "pct_rows_affected": 12.409
+    },
+    {
+      "filename": "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv",
+      "row_count": 170366,
+      "rows_with_nan": 20,
+      "rows_with_infinity": 135,
+      "rows_with_any_invalid_value": 135,
+      "duplicate_rows": 6066,
+      "rows_invalid_or_duplicate": 6187,
+      "pct_rows_affected": 3.632
+    },
+    {
+      "filename": "Tuesday-WorkingHours.pcap_ISCX.csv",
+      "row_count": 445909,
+      "rows_with_nan": 201,
+      "rows_with_infinity": 264,
+      "rows_with_any_invalid_value": 264,
+      "duplicate_rows": 24065,
+      "rows_invalid_or_duplicate": 24283,
+      "pct_rows_affected": 5.446
+    },
+    {
+      "filename": "Wednesday-workingHours.pcap_ISCX.csv",
+      "row_count": 692703,
+      "rows_with_nan": 1008,
+      "rows_with_infinity": 1297,
+      "rows_with_any_invalid_value": 1297,
+      "duplicate_rows": 81909,
+      "rows_invalid_or_duplicate": 82211,
+      "pct_rows_affected": 11.868
+    }
+  ],
+  "total_rows": 2830743,
+  "total_rows_invalid_or_duplicate": 258103,
+  "pct_of_dataset_affected": 9.118
+}

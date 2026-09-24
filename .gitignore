@@ -1,21 +1,17 @@
-# Python
 __pycache__/
 *.py[cod]
 .venv/
-venv/
 .env
-
-# macOS
+.DS_Store
+data/raw/
+data/processed/
+models/
+.venv/
+__pycache__/
+*.py[cod]
+.env
 .DS_Store
 
-# Raw datasets
 data/raw/
-
-# Generated/processed data
 data/processed/
-
-# Trained models
 models/
-
-# Generated reports
-reports/

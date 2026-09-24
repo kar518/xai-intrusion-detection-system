@@ -1,0 +1,39 @@
+{
+  "source_files": [
+    "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv",
+    "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv",
+    "Friday-WorkingHours-Morning.pcap_ISCX.csv",
+    "Monday-WorkingHours.pcap_ISCX.csv",
+    "Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv",
+    "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv",
+    "Tuesday-WorkingHours.pcap_ISCX.csv",
+    "Wednesday-workingHours.pcap_ISCX.csv"
+  ],
+  "detected_day_by_file": {
+    "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv": "friday",
+    "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv": "friday",
+    "Friday-WorkingHours-Morning.pcap_ISCX.csv": "friday",
+    "Monday-WorkingHours.pcap_ISCX.csv": "monday",
+    "Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv": "thursday",
+    "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv": "thursday",
+    "Tuesday-WorkingHours.pcap_ISCX.csv": "tuesday",
+    "Wednesday-workingHours.pcap_ISCX.csv": "wednesday"
+  },
+  "status": "OK",
+  "train_rows": 1952893,
+  "test_rows": 621371,
+  "train_attack_counts": {
+    "0": 1747803,
+    "1": 205090
+  },
+  "test_attack_counts": {
+    "0": 400583,
+    "1": 220788
+  },
+  "test_label_counts": {
+    "BENIGN": 400583,
+    "DDoS": 128016,
+    "PortScan": 90819,
+    "Bot": 1953
+  }
+}
