@@ -1,12 +1,20 @@
+import sys
 from pathlib import Path
 
 import joblib
 import pandas as pd
 from flask import Flask, jsonify, request, render_template
 
-from xai.shap_explainer import SHAPExplainer
-
 ROOT = Path(__file__).resolve().parents[2]
+
+# Make `xai.*` importable no matter how the app is launched
+# (python src/app/app.py, python -m src.app.app, flask run, ...).
+SRC_DIR = ROOT / "src"
+
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
+from xai.shap_explainer import SHAPExplainer  # noqa: E402
 
 MODEL_DIR = ROOT / "models"
 TEST_FILE = ROOT / "data" / "processed" / "test.csv"
@@ -136,15 +144,22 @@ def predict_flow(flow):
     }
 
     # -------------------------------------------------------------
-    # SHAP EXPLANATION
+    # SHAP EXPLANATION (contributions toward the ATTACK class)
     # -------------------------------------------------------------
+    #
+    # Positive shap_value  -> pushes the flow toward ATTACK
+    # Negative shap_value  -> pushes the flow toward BENIGN
+    #
+    # Explained for BENIGN flows too, so the dashboard can show why a
+    # flow was NOT flagged.
 
-    if binary_prediction == 1:
+    try:
 
         shap_explanation = (
             binary_shap_explainer.explain(
                 X_binary,
                 top_n=10,
+                target_class=1,
             )[0]
         )
 
@@ -161,9 +176,17 @@ def predict_flow(flow):
             for item in shap_explanation["features"]
         ]
 
-    else:
+        result["shap_base_value"] = float(
+            shap_explanation["base_value"]
+        )
+
+    except Exception as error:
+
+        # Never let an explanation failure break the prediction.
+        print(f"SHAP explanation failed: {error!r}")
 
         result["shap"] = []
+        result["shap_error"] = str(error)
 
     # -------------------------------------------------------------
     # STAGE 2: ATTACK TYPE

@@ -1,0 +1,31 @@
+diff a/src/app/templates/index.html b/src/app/templates/index.html	(rejected hunks)
+@@ -200,21 +200,17 @@
+ 
+         </div>
+ 
+-        <div class="xai-placeholder">
++        <div id="shap-summary" class="shap-summary"></div>
+ 
+-            <div class="xai-icon">
+-                SHAP
+-            </div>
+-
+-            <div>
+-                <h3>Feature Contribution</h3>
+-
+-                <p>
+-                    SHAP explanations will appear here after the
+-                    prediction pipeline is connected to the XAI module.
+-                </p>
++        <div id="shap-container" class="shap-list">
++            <div class="empty">
++                Analyze a flow to see its SHAP explanation.
+             </div>
++        </div>
+ 
++        <div class="shap-legend">
++            <span><i class="swatch swatch-attack"></i> pushes toward ATTACK</span>
++            <span><i class="swatch swatch-benign"></i> pushes toward BENIGN</span>
+         </div>
+ 
+     </section>

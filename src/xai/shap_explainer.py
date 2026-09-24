@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import joblib
+import numpy as np
 import pandas as pd
 import shap
 
@@ -58,18 +59,40 @@ class SHAPExplainer:
 
         return flow[self.features].copy()
 
-    def explain(self, flow: pd.DataFrame, top_n: int = 10):
+    def _base_value(self, class_label):
+        """Expected model output (baseline) for one class."""
+
+        expected = np.ravel(self.explainer.expected_value)
+
+        if expected.size == 1:
+            return float(expected[0])
+
+        class_index = list(self.model.classes_).index(class_label)
+        return float(expected[class_index])
+
+    def explain(
+        self,
+        flow: pd.DataFrame,
+        top_n: int = 10,
+        target_class=None,
+    ):
         """
         Generate SHAP explanations for one or more flows.
 
-        For classification models, select the SHAP values corresponding
-        to the model's predicted class.
+        By default the SHAP values of each row's predicted class are used.
+        If target_class is given (e.g. 1 for ATTACK), that class is used
+        for every row, so positive values always push toward that class.
         """
 
         X = self.prepare_input(flow)
 
         shap_values = self.explainer.shap_values(X)
         predictions = self.model.predict(X)
+
+        if target_class is not None:
+            predictions_for_shap = [target_class] * len(X)
+        else:
+            predictions_for_shap = predictions
 
         # SHAP output format differs between versions.
         #
@@ -83,7 +106,7 @@ class SHAPExplainer:
         if isinstance(shap_values, list):
             values = []
 
-            for i, prediction in enumerate(predictions):
+            for i, prediction in enumerate(predictions_for_shap):
                 class_index = list(self.model.classes_).index(prediction)
                 values.append(shap_values[class_index][i])
 
@@ -102,7 +125,7 @@ class SHAPExplainer:
                     for index, label in enumerate(self.model.classes_)
                 }
 
-                for i, prediction in enumerate(predictions):
+                for i, prediction in enumerate(predictions_for_shap):
                     class_index = class_indices[prediction]
                     selected.append(values[i, :, class_index])
 
@@ -127,6 +150,8 @@ class SHAPExplainer:
             results.append(
                 {
                     "prediction": predictions[i],
+                    "explained_class": predictions_for_shap[i],
+                    "base_value": self._base_value(predictions_for_shap[i]),
                     "features": [
                         {
                             "feature": feature,

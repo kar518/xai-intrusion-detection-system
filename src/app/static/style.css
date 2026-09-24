@@ -239,6 +239,118 @@ button:disabled {
     color: #8995a3;
 }
 
+.shap-summary {
+    margin-bottom: 16px;
+    color: #8995a3;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.shap-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background: #0d131a;
+    border: 1px solid #1e2833;
+    border-radius: 8px;
+}
+
+.shap-row {
+    display: grid;
+    grid-template-columns: 240px 1fr 90px;
+    align-items: center;
+    gap: 14px;
+}
+
+.shap-feature {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.shap-name {
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.shap-fvalue {
+    font-family: monospace;
+    font-size: 11px;
+    color: #8995a3;
+}
+
+.shap-bar {
+    position: relative;
+    height: 12px;
+    background: #202a35;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.shap-axis {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #4a5563;
+}
+
+.shap-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.shap-attack {
+    background: #ef6c6c;
+}
+
+.shap-benign {
+    background: #4fa3e0;
+}
+
+.shap-number {
+    text-align: right;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+.shap-text-attack {
+    color: #ef6c6c;
+}
+
+.shap-text-benign {
+    color: #4fa3e0;
+}
+
+.shap-legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #8995a3;
+}
+
+.swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    border-radius: 2px;
+}
+
+.swatch-attack {
+    background: #ef6c6c;
+}
+
+.swatch-benign {
+    background: #4fa3e0;
+}
+
 .hidden {
     display: none;
 }
@@ -257,5 +369,66 @@ button:disabled {
 
     .probability-value {
         text-align: left;
+    }
+
+    .shap-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .shap-number {
+        text-align: left;
+    }
+}
+
+/* ================================================================
+   SHAP FEATURE CONTRIBUTIONS
+   ================================================================ */
+
+#shap-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.shap-row {
+    display: grid;
+    grid-template-columns: 1.6fr 0.8fr 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.shap-feature {
+    font-weight: 600;
+}
+
+.shap-value {
+    font-family: monospace;
+}
+
+.shap-direction {
+    font-size: 0.9rem;
+}
+
+.toward-attack {
+    font-weight: 600;
+}
+
+.toward-benign {
+    opacity: 0.7;
+}
+
+.shap-input {
+    font-family: monospace;
+    opacity: 0.75;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 800px) {
+    .shap-row {
+        grid-template-columns: 1fr 1fr;
     }
 }

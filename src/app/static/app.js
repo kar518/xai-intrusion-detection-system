@@ -242,9 +242,193 @@ function displayResult(result) {
     }
 
 
+    // ============================================================
+    // SHAP EXPLANATION
+    // ============================================================
+
+    displaySHAP(
+        result.shap
+    );
+
+
+
+
+    displaySHAP(result);
     document.getElementById(
         "xai-panel"
     ).classList.remove("hidden");
+}
+
+
+// ================================================================
+// SHAP FEATURE CONTRIBUTIONS
+// ================================================================
+
+function displaySHAP(shapData) {
+
+    const container =
+        document.getElementById(
+            "shap-features"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    if (
+        !shapData ||
+        !shapData.features ||
+        shapData.features.length === 0
+    ) {
+        container.innerHTML =
+            "<p>No SHAP explanation available.</p>";
+
+        return;
+    }
+
+    for (
+        const item of shapData.features
+    ) {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "shap-row";
+
+        const direction =
+            item.shap_value > 0
+                ? "toward ATTACK"
+                : "toward BENIGN";
+
+        const sign =
+            item.shap_value > 0
+                ? "+"
+                : "";
+
+        row.innerHTML = `
+            <div class="shap-feature">
+                ${escapeHtml(item.feature)}
+            </div>
+
+            <div class="shap-value">
+                ${sign}${item.shap_value.toFixed(6)}
+            </div>
+
+            <div class="shap-direction ${
+                item.shap_value > 0
+                    ? "toward-attack"
+                    : "toward-benign"
+            }">
+                ${direction}
+            </div>
+
+            <div class="shap-input">
+                Input: ${formatNumber(item.feature_value)}
+            </div>
+        `;
+
+        container.appendChild(row);
+    }
+}
+
+
+
+
+// ================================================================
+// SHAP EXPLANATION
+// ================================================================
+
+function displaySHAP(result) {
+
+    const container =
+        document.getElementById("shap-container");
+
+    const summary =
+        document.getElementById("shap-summary");
+
+    container.innerHTML = "";
+    summary.innerHTML = "";
+
+    const items = Array.isArray(result.shap)
+        ? result.shap
+        : [];
+
+    if (items.length === 0) {
+
+        const reason = result.shap_error
+            ? `SHAP explanation failed: ${result.shap_error}`
+            : "No SHAP explanation available.";
+
+        container.innerHTML =
+            `<div class="empty">${escapeHtml(reason)}</div>`;
+
+        return;
+    }
+
+    const verdict =
+        result.prediction === "ATTACK"
+            ? "flagged as an attack"
+            : "classified as benign";
+
+    let text =
+        `This flow was ${verdict}. ` +
+        `Top ${items.length} features by influence ` +
+        `on the attack score:`;
+
+    if (typeof result.shap_base_value === "number") {
+        text +=
+            ` (baseline attack probability ` +
+            `${percent(result.shap_base_value)}, ` +
+            `this flow ${percent(result.attack_probability)})`;
+    }
+
+    summary.textContent = text;
+
+    const maxAbs = Math.max(
+        ...items.map(item => Math.abs(item.shap_value)),
+        1e-12
+    );
+
+    for (const item of items) {
+
+        const value = item.shap_value;
+        const toward = value >= 0 ? "attack" : "benign";
+        const width = (Math.abs(value) / maxAbs) * 50;
+
+        const row = document.createElement("div");
+        row.className = "shap-row";
+
+        row.innerHTML = `
+            <div class="shap-feature">
+                <span class="shap-name">
+                    ${escapeHtml(item.feature)}
+                </span>
+                <span class="shap-fvalue">
+                    value: ${formatNumber(item.feature_value)}
+                </span>
+            </div>
+
+            <div class="shap-bar">
+                <div class="shap-axis"></div>
+                <div
+                    class="shap-fill shap-${toward}"
+                    style="width: ${width}%;
+                           ${value >= 0
+                               ? "left: 50%;"
+                               : "right: 50%;"}"
+                ></div>
+            </div>
+
+            <div class="shap-number shap-text-${toward}">
+                ${value >= 0 ? "+" : "−"}${Math.abs(value).toFixed(4)}
+            </div>
+        `;
+
+        container.appendChild(row);
+    }
 }
 
 
