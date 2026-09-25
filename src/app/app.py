@@ -4,6 +4,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 from flask import Flask, jsonify, request, render_template
+from src.threat_analysis.analyzer import analyze_threat
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -233,6 +234,10 @@ def predict_flow(flow):
             for label, probability
             in attack_probability_map.items()
         }
+
+        result["threat_analysis"] = analyze_threat(
+            str(attack_prediction)
+        )
 
     return result
 
