@@ -46,6 +46,10 @@ async function loadDemo(label) {
             "xai-panel"
         ).classList.add("hidden");
 
+        document.getElementById(
+            "threat-panel"
+        ).classList.add("hidden");
+
         setStatus("FLOW LOADED");
 
     } catch (error) {
@@ -216,7 +220,9 @@ function displayResult(result) {
     ) {
 
         attackType.textContent =
-            result.attack_type;
+            formatAttackLabel(
+                result.attack_type
+            );
 
         attackConfidence.textContent =
             percent(
@@ -246,14 +252,9 @@ function displayResult(result) {
     // SHAP EXPLANATION
     // ============================================================
 
-    displaySHAP(
-        result.shap
-    );
-
-
-
-
     displaySHAP(result);
+    displayThreatAnalysis(result);
+
     document.getElementById(
         "xai-panel"
     ).classList.remove("hidden");
@@ -261,80 +262,71 @@ function displayResult(result) {
 
 
 // ================================================================
-// SHAP FEATURE CONTRIBUTIONS
+// THREAT ANALYSIS
 // ================================================================
 
-function displaySHAP(shapData) {
+function displayThreatAnalysis(result) {
 
-    const container =
+    const panel =
         document.getElementById(
-            "shap-features"
+            "threat-panel"
         );
 
-    if (!container) {
-        return;
-    }
-
-    container.innerHTML = "";
+    const threat = result.threat_analysis;
 
     if (
-        !shapData ||
-        !shapData.features ||
-        shapData.features.length === 0
+        result.prediction !== "ATTACK" ||
+        !threat
     ) {
-        container.innerHTML =
-            "<p>No SHAP explanation available.</p>";
-
+        panel.classList.add("hidden");
         return;
     }
 
-    for (
-        const item of shapData.features
-    ) {
+    panel.classList.remove("hidden");
 
-        const row =
-            document.createElement("div");
+    document.getElementById(
+        "threat-name"
+    ).textContent = formatAttackLabel(
+        threat.attack_type
+    );
 
-        row.className =
-            "shap-row";
+    document.getElementById(
+        "threat-description"
+    ).textContent = threat.description;
 
-        const direction =
-            item.shap_value > 0
-                ? "toward ATTACK"
-                : "toward BENIGN";
+    const severity = document.getElementById(
+        "threat-severity"
+    );
 
-        const sign =
-            item.shap_value > 0
-                ? "+"
-                : "";
+    const severityName = threat.severity || "UNKNOWN";
 
-        row.innerHTML = `
-            <div class="shap-feature">
-                ${escapeHtml(item.feature)}
-            </div>
+    severity.textContent = `${severityName} SEVERITY`;
+    severity.className =
+        `severity-badge severity-${severityName.toLowerCase()}`;
 
-            <div class="shap-value">
-                ${sign}${item.shap_value.toFixed(6)}
-            </div>
+    displayList(
+        "threat-indicators",
+        threat.indicators
+    );
 
-            <div class="shap-direction ${
-                item.shap_value > 0
-                    ? "toward-attack"
-                    : "toward-benign"
-            }">
-                ${direction}
-            </div>
-
-            <div class="shap-input">
-                Input: ${formatNumber(item.feature_value)}
-            </div>
-        `;
-
-        container.appendChild(row);
-    }
+    displayList(
+        "threat-mitigation",
+        threat.mitigation
+    );
 }
 
 
+function displayList(elementId, items) {
+
+    const list = document.getElementById(elementId);
+    list.innerHTML = "";
+
+    for (const item of items || []) {
+        const entry = document.createElement("li");
+        entry.textContent = item;
+        list.appendChild(entry);
+    }
+}
 
 
 // ================================================================
@@ -465,7 +457,7 @@ function displayProbabilities(probabilities) {
 
         row.innerHTML = `
             <div class="probability-label">
-                ${escapeHtml(label)}
+                ${escapeHtml(formatAttackLabel(label))}
             </div>
 
             <div class="probability-bar">
@@ -525,6 +517,15 @@ function formatNumber(value) {
             maximumFractionDigits: 6
         }
     );
+}
+
+
+function formatAttackLabel(value) {
+
+    return String(value)
+        .replaceAll("�", "-")
+        .replace(/\s+/g, " ")
+        .trim();
 }
 
 

@@ -316,6 +316,7 @@ def demo():
     )
 
     valid_labels = {
+        "BENIGN",
         "DDoS",
         "PortScan",
         "Bot",

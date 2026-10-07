@@ -29,6 +29,41 @@
         </div>
     </header>
 
+    <section class="panel">
+        <div class="panel-header">
+            <div>
+                <h2>How the Analysis Works</h2>
+                <p>One network flow moves through the following pipeline.</p>
+            </div>
+        </div>
+
+        <div class="workflow-grid">
+            <div class="workflow-step">
+                <span class="step-number">1</span>
+                <strong>Load a flow</strong>
+                <p>Read 65 numerical features describing one network flow.</p>
+            </div>
+
+            <div class="workflow-step">
+                <span class="step-number">2</span>
+                <strong>Binary detection</strong>
+                <p>Stage 1 predicts BENIGN or ATTACK.</p>
+            </div>
+
+            <div class="workflow-step">
+                <span class="step-number">3</span>
+                <strong>Explain the decision</strong>
+                <p>SHAP shows which features pushed the attack score up or down.</p>
+            </div>
+
+            <div class="workflow-step">
+                <span class="step-number">4</span>
+                <strong>Classify the threat</strong>
+                <p>Only for an ATTACK: Stage 2 predicts its type and returns guidance.</p>
+            </div>
+        </div>
+    </section>
+
 
     <!-- ========================================================= -->
     <!-- DEMO CONTROLS -->
@@ -40,12 +75,19 @@
             <div>
                 <h2>Real CICIDS2017 Flow</h2>
                 <p>
-                    Load an actual attack flow from the test dataset.
+                    Load an actual network flow from the test dataset.
                 </p>
             </div>
         </div>
 
         <div class="controls">
+
+            <button
+                class="demo-btn"
+                onclick="loadDemo('BENIGN')"
+            >
+                Load Benign
+            </button>
 
             <button
                 class="demo-btn"
@@ -176,6 +218,43 @@
 
         </div>
 
+    </section>
+
+
+    <!-- ========================================================= -->
+    <!-- THREAT ANALYSIS -->
+    <!-- ========================================================= -->
+
+    <section
+        id="threat-panel"
+        class="panel hidden"
+    >
+        <div class="panel-header">
+            <div>
+                <h2>Threat Analysis and Response</h2>
+                <p>Practical guidance for the predicted attack type.</p>
+            </div>
+
+            <span id="threat-severity" class="severity-badge">—</span>
+        </div>
+
+        <div class="threat-description">
+            <span class="label">Detected threat</span>
+            <h3 id="threat-name">—</h3>
+            <p id="threat-description">—</p>
+        </div>
+
+        <div class="threat-grid">
+            <div class="threat-list-card">
+                <h3>Typical Indicators</h3>
+                <ul id="threat-indicators"></ul>
+            </div>
+
+            <div class="threat-list-card">
+                <h3>Recommended Mitigation</h3>
+                <ul id="threat-mitigation"></ul>
+            </div>
+        </div>
     </section>
 
 

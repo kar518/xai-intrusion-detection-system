@@ -113,6 +113,43 @@ button:disabled {
     font-size: 14px;
 }
 
+.workflow-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+}
+
+.workflow-step {
+    min-height: 150px;
+    padding: 20px;
+    background: #0d131a;
+    border: 1px solid #1e2833;
+    border-radius: 8px;
+}
+
+.workflow-step strong {
+    display: block;
+    margin: 16px 0 8px;
+}
+
+.workflow-step p {
+    margin: 0;
+    color: #8995a3;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.step-number {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #1d4ed8;
+    font-weight: 700;
+}
+
 .flow-grid {
     display: grid;
     grid-template-columns:
@@ -182,6 +219,81 @@ button:disabled {
 
 .probabilities-section {
     margin-top: 30px;
+}
+
+.severity-badge {
+    padding: 9px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.severity-medium {
+    color: #fde68a;
+    background: rgba(245, 158, 11, 0.14);
+    border: 1px solid rgba(245, 158, 11, 0.45);
+}
+
+.severity-high {
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.14);
+    border: 1px solid rgba(239, 68, 68, 0.45);
+}
+
+.severity-critical {
+    color: #f0abfc;
+    background: rgba(192, 38, 211, 0.14);
+    border: 1px solid rgba(192, 38, 211, 0.45);
+}
+
+.severity-unknown {
+    color: #cbd5e1;
+    background: rgba(148, 163, 184, 0.14);
+    border: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.threat-description {
+    padding: 20px;
+    margin-bottom: 14px;
+    background: #0d131a;
+    border: 1px solid #1e2833;
+    border-radius: 8px;
+}
+
+.threat-description .label {
+    color: #8995a3;
+    font-size: 12px;
+}
+
+.threat-description h3 {
+    margin: 7px 0 10px;
+}
+
+.threat-description p {
+    margin: 0;
+    color: #aeb9c6;
+    line-height: 1.6;
+}
+
+.threat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.threat-list-card {
+    padding: 20px;
+    background: #0d131a;
+    border: 1px solid #1e2833;
+    border-radius: 8px;
+}
+
+.threat-list-card ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #aeb9c6;
+    line-height: 1.8;
 }
 
 .probability-row {
@@ -379,56 +491,8 @@ button:disabled {
     .shap-number {
         text-align: left;
     }
-}
 
-/* ================================================================
-   SHAP FEATURE CONTRIBUTIONS
-   ================================================================ */
-
-#shap-features {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.shap-row {
-    display: grid;
-    grid-template-columns: 1.6fr 0.8fr 1fr 1fr;
-    gap: 16px;
-    align-items: center;
-    padding: 14px 16px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.04);
-}
-
-.shap-feature {
-    font-weight: 600;
-}
-
-.shap-value {
-    font-family: monospace;
-}
-
-.shap-direction {
-    font-size: 0.9rem;
-}
-
-.toward-attack {
-    font-weight: 600;
-}
-
-.toward-benign {
-    opacity: 0.7;
-}
-
-.shap-input {
-    font-family: monospace;
-    opacity: 0.75;
-    font-size: 0.85rem;
-}
-
-@media (max-width: 800px) {
-    .shap-row {
-        grid-template-columns: 1fr 1fr;
+    .threat-grid {
+        grid-template-columns: 1fr;
     }
 }
