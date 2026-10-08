@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Flow Investigation Lab</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='lab.css') }}">
+</head>
+<body>
+<main>
+  <header><div><p class="eyebrow">INTERACTIVE IDS PLAYGROUND</p><h1>Investigate a flow.</h1><p>Make a guess. Ask the model. Change the timing. Discover what happens.</p></div><span class="tag">Real test records · simulated experiments</span></header>
+  <nav aria-label="Investigation steps"><span id="step1" class="active">1 · Observe & guess</span><span id="step2">2 · Explain</span><span id="step3">3 · Experiment</span><span id="step4">4 · Reveal</span></nav>
+  <p id="message" role="status" aria-live="polite">Loading a case…</p>
+  <section class="card">
+    <div class="heading"><div><p class="eyebrow">YOUR CASE</p><h2 id="case-name">Network flow</h2></div><button id="new-case" class="secondary">Open another case</button></div>
+    <p>A flow summarises traffic between an initiator and a responder. Forward is outgoing; backward is the return direction. The dataset label is hidden while you investigate.</p>
+    <div id="facts" class="facts"></div>
+    <details><summary>Explore all 65 measured features</summary><div class="table-wrap"><table><thead><tr><th>Feature</th><th>Measured value</th></tr></thead><tbody id="features"></tbody></table></div></details>
+    <div class="guess"><h3>What do you think?</h3><p>You are making a hypothesis from this record. A single number does not establish an attack.</p><div class="buttons"><button data-guess="BENIGN">Looks benign</button><button data-guess="ATTACK">Looks suspicious</button><button data-guess="UNSURE" class="secondary">I'm unsure</button></div></div>
+  </section>
+  <section id="model-section" class="card" hidden>
+    <p class="eyebrow">MODEL DECISION</p><h2 id="model-title"></h2><p id="guess-note"></p>
+    <div id="original-result" class="result"></div>
+    <h3>What influenced the model?</h3><p>These are the ten largest SHAP contributions to the attack probability. Positive pushes toward attack; negative pushes toward benign. <strong>Measured value is the flow's input, not a threshold.</strong> SHAP explains a prediction; it does not prove an attack.</p>
+    <p id="baseline"></p><div id="shap"></div>
+    <details id="guidance" hidden><summary>Suggested response for the predicted attack type</summary><p id="threat-description"></p><ul id="mitigation"></ul><p>Reference guidance only; no blocking or mitigation is performed by this lab.</p></details>
+  </section>
+  <section id="experiment-section" class="card" hidden>
+    <p class="eyebrow">WHAT IF?</p><h2>Change how quickly the same traffic happens.</h2>
+    <p>Keep the packet counts, bytes and sizes the same. Stretch or compress the timeline: duration and time gaps change together, while traffic rates change inversely.</p>
+    <label for="factor">Simulated timeline</label><select id="factor"><option value="0.25">4× faster · quarter the time</option><option value="0.5">2× faster · half the time</option><option value="1" selected>Original timing</option><option value="2">2× slower · twice the time</option><option value="4">4× slower · four times the time</option></select>
+    <div id="preview" class="facts"></div><p class="notice">This is a feature-level simulation, not captured or generated network traffic. Real flow extraction may change segmentation and active/idle periods. The original dataset label applies only to the original record.</p>
+    <button id="experiment">Reanalyse this experiment</button>
+    <div id="comparison" hidden><h3>Original versus experiment</h3><div class="compare"><div><h4>Recorded flow</h4><div id="compare-original" class="result"></div></div><div><h4>Simulated flow</h4><div id="compare-modified" class="result"></div></div></div><p id="delta" class="notice"></p><details><summary>See every changed measurement</summary><div class="table-wrap"><table><thead><tr><th>Feature</th><th>Original</th><th>Simulated</th></tr></thead><tbody id="changes"></tbody></table></div></details><h3>SHAP for the experiment</h3><div id="experiment-shap"></div></div>
+  </section>
+  <section id="truth-section" class="card" hidden><p class="eyebrow">CHECK YOUR HYPOTHESIS</p><h2>Reveal the dataset's answer.</h2><p>Compare your guess and the model's prediction against the original record's label.</p><button id="reveal">Reveal original label</button><div id="truth" aria-live="polite"></div></section>
+  <footer>Offline investigation using the project's trained two-stage IDS. Cases are selected without filtering for model correctness. This exercise is not an overall accuracy evaluation.</footer>
+</main>
+<script src="{{ url_for('static', filename='lab.js') }}"></script>
+</body></html>
