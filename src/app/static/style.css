@@ -19,6 +19,35 @@ body {
     padding: 40px 0 80px;
 }
 
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 28px;
+}
+
+.site-nav a {
+    padding: 10px 16px;
+    border: 1px solid #344152;
+    border-radius: 8px;
+    color: #aab8ca;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.site-nav a[aria-current="page"],
+.site-nav a:hover {
+    color: #96c8ff;
+    background: #19212d;
+    border-color: #96c8ff;
+}
+
+.site-nav a:focus-visible {
+    outline: 3px solid #82dfb3;
+    outline-offset: 4px;
+}
+
 header {
     display: flex;
     justify-content: space-between;

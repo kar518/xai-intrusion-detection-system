@@ -8,7 +8,8 @@ function node(tag, text, className) { const el = document.createElement(tag); el
 function message(text, error = false) { $('message').textContent = text; $('message').className = error ? 'error' : ''; }
 function mark(step) { for(let i=1;i<=4;i++) $(`step${i}`).classList.toggle('active', i === step); }
 async function api(path, data) {
-  const response = await fetch(path, data ? {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)} : {});
+  const base = document.body.dataset.labBase.replace(/\/$/, '');
+  const response = await fetch(base + path, data ? {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)} : {});
   const payload = await response.json();
   if(!response.ok) throw new Error(payload.error || 'Unable to complete this action.');
   return payload;

@@ -5,8 +5,9 @@
   <title>Flow Investigation Lab</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='lab.css') }}">
 </head>
-<body>
+<body data-lab-base="{{ url_for('home') }}">
 <main>
+  <nav class="site-nav" aria-label="Main navigation"><a href="/">Dashboard</a><a href="{{ url_for('home') }}" aria-current="page">Investigation Lab</a></nav>
   <header><div><p class="eyebrow">INTERACTIVE IDS PLAYGROUND</p><h1>Investigate a flow.</h1><p>Make a guess. Ask the model. Change the timing. Discover what happens.</p></div><span class="tag">Real test records · simulated experiments</span></header>
   <nav aria-label="Investigation steps"><span id="step1" class="active">1 · Observe & guess</span><span id="step2">2 · Explain</span><span id="step3">3 · Experiment</span><span id="step4">4 · Reveal</span></nav>
   <p id="message" role="status" aria-live="polite">Loading a case…</p>
