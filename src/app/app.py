@@ -1,4 +1,5 @@
 import sys
+import os
 from pathlib import Path
 
 import joblib
@@ -17,8 +18,8 @@ if str(SRC_DIR) not in sys.path:
 
 from xai.shap_explainer import SHAPExplainer  # noqa: E402
 
-MODEL_DIR = ROOT / "models"
-TEST_FILE = ROOT / "data" / "processed" / "test.csv"
+MODEL_DIR = Path(os.environ.get("IDS_MODEL_DIR", ROOT / "models"))
+TEST_FILE = Path(os.environ.get("IDS_TEST_FILE", ROOT / "data" / "processed" / "test.csv"))
 
 BINARY_MODEL_FILE = MODEL_DIR / "random_forest_binary.joblib"
 BINARY_FEATURE_FILE = MODEL_DIR / "random_forest_binary.features.json"

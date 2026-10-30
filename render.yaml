@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: xai-ids-dashboard
+    runtime: python
+    plan: free
+    buildCommand: pip install -r deployment/requirements.txt
+    startCommand: gunicorn src.app.app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.9
+      - key: IDS_MODEL_DIR
+        value: deployment/models
+      - key: IDS_TEST_FILE
+        value: deployment/demo.csv
+      - key: MPLCONFIGDIR
+        value: /tmp/matplotlib
+  - type: web
+    name: xai-ids-investigation
+    runtime: python
+    plan: free
+    buildCommand: pip install -r deployment/requirements.txt
+    startCommand: gunicorn src.investigation.app:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.9
+      - key: IDS_MODEL_DIR
+        value: deployment/models
+      - key: IDS_TEST_FILE
+        value: deployment/demo.csv
+      - key: MPLCONFIGDIR
+        value: /tmp/matplotlib
